@@ -8,9 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:                                              # ← ADD THIS LINE
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-    steps:
+   
+     steps:
       - uses: actions/checkout@v4
 
       - name: Set up JDK 17
