@@ -1,0 +1,53 @@
+workflows:
+  android-workflow:
+    name: Amma Sarees - Build AAB + APK
+    max_build_duration: 30
+    environment:
+      java: 17
+      android_signing:
+        - amma_sarees_keystore
+    scripts:
+      # ── 1. Bootstrap Gradle Wrapper ──────────────────────────────────────
+      - name: Bootstrap Gradle Wrapper
+        script: |
+          curl -s "https://get.sdkman.io" | bash
+          source "$HOME/.sdkman/bin/sdkman-init.sh"
+          sdk install gradle 8.4
+          sdk use gradle 8.4
+          gradle wrapper --gradle-version 8.4 --distribution-type bin
+          chmod +x gradlew
+          echo "✅ Gradle wrapper ready"
+
+      # ── 2. Patch to SDK 36 ───────────────────────────────────────────────
+      - name: Patch to Target SDK 36
+        script: |
+          sed -i 's/compileSdk [0-9]*/compileSdk 36/g' app/build.gradle
+          sed -i 's/targetSdk [0-9]*/targetSdk 36/g' app/build.gradle
+          echo "✅ Patched to SDK 36"
+
+      # ── 3. Build Debug APK ───────────────────────────────────────────────
+      - name: Build Debug APK
+        script: |
+          ./gradlew assembleDebug --no-daemon --stacktrace
+
+      # ── 4. Build Signed Release AAB ──────────────────────────────────────
+      - name: Build Signed Release AAB
+        script: |
+          ./gradlew bundleRelease \
+            -Pandroid.injected.signing.store.file=$CM_KEYSTORE_PATH \
+            -Pandroid.injected.signing.store.password=$CM_KEYSTORE_PASSWORD \
+            -Pandroid.injected.signing.key.alias=$CM_KEY_ALIAS \
+            -Pandroid.injected.signing.key.password=$CM_KEY_PASSWORD \
+            --no-daemon --stacktrace
+
+    artifacts:
+      - app/build/outputs/apk/debug/app-debug.apk
+      - app/build/outputs/bundle/release/app-release.aab
+
+    publishing:
+      email:
+        recipients:
+          - harshavardhan722@gmail.com   # ← Change this to your email
+        notify:
+          success: true
+          failure: true

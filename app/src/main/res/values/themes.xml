@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.AmmaSarees" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">#7C3AED</item>
+        <item name="colorPrimaryVariant">#5B21B6</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorSecondary">#EC4899</item>
+        <item name="colorOnSecondary">#FFFFFF</item>
+        <item name="android:statusBarColor">#7C3AED</item>
+        <item name="android:windowBackground">#FFFFFF</item>
+    </style>
+
+    <style name="Theme.AmmaSarees.Splash" parent="Theme.AmmaSarees">
+        <item name="android:statusBarColor">#7C3AED</item>
+        <item name="android:navigationBarColor">#7C3AED</item>
+        <item name="android:windowBackground">#7C3AED</item>
+    </style>
+
+</resources>
