@@ -8,8 +8,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-   
-     steps:
+    steps:
       - uses: actions/checkout@v4
 
       - name: Set up JDK 17
@@ -59,4 +58,3 @@ jobs:
           name: AmmaSarees-Release-AAB
           path: app/build/outputs/bundle/release/app-release.aab
           retention-days: 30
-jobs:
